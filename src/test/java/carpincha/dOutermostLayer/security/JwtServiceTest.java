@@ -44,10 +44,34 @@ class JwtServiceTest {
     @Test
     void whenExtractNameFromValidToken_thenNameIsExtracted() {
         String token = jwtService.generateToken(user);
-
         String extractedName = jwtService.extractName(token);
 
         assertEquals("Loli", extractedName);
     }
+
+    @Test
+    void whenExtractRoleFromValidToken_thenRoleIsExtracted() {
+        String token = jwtService.generateToken(user);
+        Role extractedRole = jwtService.extractRole(token);
+
+        assertEquals(Role.USER, extractedRole);
+    }
+
+    @Test
+    void whenValidateValidToken_thenReturnsTrue() {
+        String token = jwtService.generateToken(user);
+        boolean isValid = jwtService.validateToken(token);
+
+        assertTrue(isValid);
+    }
+
+    @Test
+    void whenValidateInvalidToken_thenReturnsFalse() {
+        String token = "not.valid.token";
+        boolean isValid = jwtService.validateToken(token);
+
+        assertFalse(isValid);
+    }
+
 
 }

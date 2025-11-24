@@ -33,6 +33,17 @@ class AuthServiceTest {
     private AuthService authService;
 
     @Test
+    void diagnosticTest_TokenServiceWorks() {
+        User testUser = User.builder().name("test").build();
+        when(tokenService.generateToken(any(User.class))).thenReturn("test-token");
+
+        String result = tokenService.generateToken(testUser);
+
+        assertThat(result).isEqualTo("test-token");
+        verify(tokenService, times(1)).generateToken(testUser);
+    }
+
+    @Test
     void whenRegister_withValidData_ReturnsJwtResponse() {
         RegisterRequest request = new RegisterRequest("Loli", "1234567");
 
@@ -58,19 +69,4 @@ class AuthServiceTest {
         assertThat(response.role()).isEqualTo(Role.USER);
         assertThat(response.type()).isEqualTo("Bearer");
     }
-
-    @Test
-    void diagnosticTest_TokenServiceWorks() {
-        // Arrange
-        User testUser = User.builder().name("test").build();
-        when(tokenService.generateToken(any(User.class))).thenReturn("test-token");
-
-        // Act
-        String result = tokenService.generateToken(testUser);
-
-        // Assert
-        assertThat(result).isEqualTo("test-token");
-        verify(tokenService, times(1)).generateToken(testUser);
-    }
-
 }

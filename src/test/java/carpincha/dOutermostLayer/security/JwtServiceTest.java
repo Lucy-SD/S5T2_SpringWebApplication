@@ -73,5 +73,18 @@ class JwtServiceTest {
         assertFalse(isValid);
     }
 
+    @Test
+    void whenValidateTokenWithAdmin_thenExtractionWorks() {
+        User admin = User.builder()
+                .name("Admin")
+                .role(Role.ADMIN)
+                .build();
+        String token = jwtService.generateToken(admin);
 
+        String extractedName = jwtService.extractName(token);
+        Role extractedRole = jwtService.extractRole(token);
+
+        assertEquals("Admin", extractedName);
+        assertEquals(Role.ADMIN, extractedRole);
+    }
 }

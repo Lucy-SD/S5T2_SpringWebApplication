@@ -39,7 +39,7 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
-    runtimeOnly("com.mysql:mysql-connector-j")
+    runtimeOnly("org.postgresql:postgresql:42.6.0")
     testRuntimeOnly("com.h2database:h2")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")

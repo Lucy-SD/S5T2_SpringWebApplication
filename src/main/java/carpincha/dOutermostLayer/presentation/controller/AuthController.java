@@ -1,9 +1,9 @@
 package carpincha.dOutermostLayer.presentation.controller;
 
-import carpincha.cAppliationService.dto.request.LoginRequest;
-import carpincha.cAppliationService.dto.request.RegisterRequest;
-import carpincha.cAppliationService.dto.response.JwtResponse;
-import carpincha.cAppliationService.service.AuthService;
+import carpincha.cApplicationService.dto.request.LoginRequest;
+import carpincha.cApplicationService.dto.request.RegisterRequest;
+import carpincha.cApplicationService.dto.response.JwtResponse;
+import carpincha.cApplicationService.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

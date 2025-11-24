@@ -1,7 +1,7 @@
 package carpincha.aCore.serviceInterface;
 
 import carpincha.aCore.entity.user.User;
-import carpincha.cAppliationService.dto.request.RegisterRequest;
+import carpincha.cApplicationService.dto.request.RegisterRequest;
 
 public interface UserServiceContract {
 

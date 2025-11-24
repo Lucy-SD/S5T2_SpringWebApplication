@@ -4,7 +4,7 @@ import carpincha.aCore.exception.InvalidCredentialsException;
 import carpincha.aCore.exception.InvalidDataException;
 import carpincha.aCore.exception.NameAlreadyExistsException;
 import carpincha.aCore.exception.NotFoundException;
-import carpincha.cAppliationService.dto.response.ErrorResponse;
+import carpincha.cApplicationService.dto.response.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

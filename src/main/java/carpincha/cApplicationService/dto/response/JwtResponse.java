@@ -1,4 +1,4 @@
-package carpincha.cAppliationService.dto.response;
+package carpincha.cApplicationService.dto.response;
 
 import carpincha.aCore.valueObject.Role;
 

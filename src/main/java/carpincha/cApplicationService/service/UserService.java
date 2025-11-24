@@ -1,11 +1,10 @@
-package carpincha.cAppliationService.service;
+package carpincha.cApplicationService.service;
 
 import carpincha.aCore.entity.user.User;
 import carpincha.aCore.repoInterface.UserRepository;
 import carpincha.aCore.serviceInterface.UserPasswordEncoder;
 import carpincha.aCore.serviceInterface.UserServiceContract;
-import carpincha.cAppliationService.dto.request.RegisterRequest;
-import carpincha.aCore.exception.InvalidDataException;
+import carpincha.cApplicationService.dto.request.RegisterRequest;
 import carpincha.aCore.exception.NameAlreadyExistsException;
 import carpincha.aCore.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;

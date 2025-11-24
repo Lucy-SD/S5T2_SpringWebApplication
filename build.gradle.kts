@@ -5,6 +5,7 @@ plugins {
     kotlin("plugin.spring") version "1.9.25"
 	id("org.springframework.boot") version "3.5.7"
 	id("io.spring.dependency-management") version "1.1.7"
+    jacoco
 }
 
 group = "carpincha"
@@ -93,5 +94,33 @@ tasks.bootRun {
                 val parts = line.split("=", limit = 2)
                 environment[parts[0].trim()] = parts[1].trim()
             }
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.11"
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
+}
+
+tasks.jacocoTestCoverageVerification {
+    dependsOn(tasks.jacocoTestReport)
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.3".toBigDecimal() // 30% cobertura mínima inicial
+            }
+        }
     }
 }

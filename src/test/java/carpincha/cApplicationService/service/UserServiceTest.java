@@ -2,6 +2,7 @@ package carpincha.cApplicationService.service;
 
 import carpincha.aCore.entity.user.User;
 import carpincha.aCore.exception.NameAlreadyExistsException;
+import carpincha.aCore.exception.NotFoundException;
 import carpincha.aCore.repoInterface.UserRepository;
 import carpincha.aCore.serviceInterface.UserPasswordEncoder;
 import carpincha.cApplicationService.dto.request.RegisterRequest;
@@ -11,6 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -79,5 +82,28 @@ class UserServiceTest {
         userService.registerUser(request);
 
         verify(encoder).encode("1234567");
+    }
+
+    @Test
+    void whenFindByNameWithExistingUser_thenReturnsUser() {
+        when(repository.findByName("Lola")).thenReturn(Optional.of(user));
+
+        User result = userService.findByName("Lola");
+
+        verify(repository).findByName("Lola");
+
+        assertNotNull(result);
+        assertEquals("Lola", result.getName());
+    }
+
+    @Test
+    void whenFindByNameWithNoExistingUser_thenThrowsNotFoundException() {
+        when(repository.findByName("NoExiste")).thenReturn(Optional.empty());
+
+        NotFoundException e = assertThrows(NotFoundException.class, () -> userService.findByName("NoExiste"));
+
+        verify(repository, times(1)).findByName("NoExiste");
+
+        assertEquals("Usuario no encontrado.", e.getMessage());
     }
 }

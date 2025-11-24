@@ -10,11 +10,12 @@ import java.time.Instant;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "user_db")
 public class UserJpaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_db_seq")
+    @SequenceGenerator(name = "user_db_seq", sequenceName = "user_db_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(unique = true, nullable = false)

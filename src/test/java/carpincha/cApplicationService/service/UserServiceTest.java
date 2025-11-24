@@ -1,6 +1,7 @@
 package carpincha.cApplicationService.service;
 
 import carpincha.aCore.entity.user.User;
+import carpincha.aCore.exception.NameAlreadyExistsException;
 import carpincha.aCore.repoInterface.UserRepository;
 import carpincha.aCore.serviceInterface.UserPasswordEncoder;
 import carpincha.cApplicationService.dto.request.RegisterRequest;
@@ -11,11 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -57,5 +56,28 @@ class UserServiceTest {
         assertNotNull(result);
         assertEquals("Lola", result.getName());
         assertEquals("encodedPss", result.getEncodedPassword());
+    }
+
+    @Test
+    void whenRegisterUserWithExistingName_thenThrowsAlreadyExistsException() {
+        when(repository.existsByName(request.name())).thenReturn(true);
+
+        NameAlreadyExistsException e = assertThrows(NameAlreadyExistsException.class,
+                () -> userService.registerUser(request));
+
+        verify(repository, never()).save(any(User.class));
+
+        assertEquals("El nombre solicitado ya está ocupado. Por favor, elija otro.", e.getMessage());
+    }
+
+    @Test
+    void whenRegisterUser_thenPasswordIsEncoded() {
+        when(repository.existsByName(request.name())).thenReturn(false);
+        when(encoder.encode("1234567")).thenReturn("encodedPss");
+        when(repository.save(any(User.class))).thenReturn(user);
+
+        userService.registerUser(request);
+
+        verify(encoder).encode("1234567");
     }
 }

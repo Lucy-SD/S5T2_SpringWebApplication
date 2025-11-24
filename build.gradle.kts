@@ -60,7 +60,6 @@ dependencies {
 tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
     mainClass.set("carpincha.CarpinchaApp")
 }
-
 tasks.test {
     useJUnitPlatform()
     testLogging {
@@ -71,14 +70,16 @@ tasks.test {
         showStackTraces = true
     }
 
-    doFirst {
-        val mockitoCore = configurations.testRuntimeClasspath.get()
+    val mockitoAgent by lazy {
+        configurations.testRuntimeClasspath.get()
             .files
             .find { it.name.contains("mockito-core") }
+            ?.absolutePath
+            ?.let { "-javaagent:$it" }
+    }
 
-        mockitoCore?.let { mockitoJar ->
-            jvmArgs = (jvmArgs ?: emptyList()) + "-javaagent:${mockitoJar.absolutePath}"
-        }
+    mockitoAgent?.let { agent ->
+        jvmArgs = (jvmArgs ?: emptyList()) + agent
     }
 }
 

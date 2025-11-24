@@ -65,6 +65,20 @@ tasks.test {
     useJUnitPlatform()
     testLogging {
         events("passed", "skipped", "failed")
+        showExceptions = true
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        showCauses = true
+        showStackTraces = true
+    }
+
+    doFirst {
+        val mockitoCore = configurations.testRuntimeClasspath.get()
+            .files
+            .find { it.name.contains("mockito-core") }
+
+        mockitoCore?.let { mockitoJar ->
+            jvmArgs = (jvmArgs ?: emptyList()) + "-javaagent:${mockitoJar.absolutePath}"
+        }
     }
 }
 

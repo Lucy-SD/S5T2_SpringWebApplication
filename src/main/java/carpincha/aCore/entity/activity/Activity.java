@@ -29,7 +29,8 @@ public class Activity {
     private FrequencyType frequency = FrequencyType.DAILY;
     @Builder.Default
     private ActivityStatus status = ActivityStatus.PENDING;
-    private PriorityLevel priority;
+    @Builder.Default
+    private PriorityLevel priority = PriorityLevel.MEDIUM;
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
     private Integer estimatedDuration;

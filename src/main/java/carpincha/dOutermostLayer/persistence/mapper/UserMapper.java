@@ -1,7 +1,7 @@
 package carpincha.dOutermostLayer.persistence.mapper;
 
 import carpincha.aCore.entity.user.User;
-import carpincha.dOutermostLayer.persistence.UserJpaEntity;
+import carpincha.dOutermostLayer.persistence.userEntity.UserJpaEntity;
 import org.springframework.stereotype.Component;
 
 @Component

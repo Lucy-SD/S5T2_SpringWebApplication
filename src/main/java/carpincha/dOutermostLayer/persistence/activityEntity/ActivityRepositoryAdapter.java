@@ -1,4 +1,4 @@
-package carpincha.dOutermostLayer.persistence;
+package carpincha.dOutermostLayer.persistence.activityEntity;
 
 import carpincha.aCore.entity.activity.Activity;
 import carpincha.aCore.repoInterface.ActivityRepository;

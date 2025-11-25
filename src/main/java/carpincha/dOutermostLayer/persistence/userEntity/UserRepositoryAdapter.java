@@ -1,4 +1,4 @@
-package carpincha.dOutermostLayer.persistence;
+package carpincha.dOutermostLayer.persistence.userEntity;
 
 import carpincha.aCore.entity.user.User;
 import carpincha.aCore.repoInterface.UserRepository;

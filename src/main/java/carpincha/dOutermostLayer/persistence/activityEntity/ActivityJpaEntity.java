@@ -1,9 +1,10 @@
-package carpincha.dOutermostLayer.persistence;
+package carpincha.dOutermostLayer.persistence.activityEntity;
 
 import carpincha.aCore.valueObject.ActivityStatus;
 import carpincha.aCore.valueObject.CategoryType;
 import carpincha.aCore.valueObject.FrequencyType;
 import carpincha.aCore.valueObject.PriorityLevel;
+import carpincha.dOutermostLayer.persistence.userEntity.UserJpaEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

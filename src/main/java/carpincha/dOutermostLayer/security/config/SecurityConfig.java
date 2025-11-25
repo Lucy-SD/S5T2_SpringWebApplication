@@ -1,5 +1,6 @@
-package carpincha.dOutermostLayer.security;
+package carpincha.dOutermostLayer.security.config;
 
+import carpincha.dOutermostLayer.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

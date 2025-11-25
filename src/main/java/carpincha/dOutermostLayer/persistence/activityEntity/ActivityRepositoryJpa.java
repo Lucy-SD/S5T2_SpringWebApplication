@@ -1,4 +1,4 @@
-package carpincha.dOutermostLayer.persistence;
+package carpincha.dOutermostLayer.persistence.activityEntity;
 
 import carpincha.aCore.valueObject.CategoryType;
 import org.springframework.data.jpa.repository.JpaRepository;

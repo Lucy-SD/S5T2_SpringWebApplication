@@ -5,11 +5,20 @@ import carpincha.aCore.valueObject.ActivityStatus;
 import carpincha.aCore.valueObject.CategoryType;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ActivityRepository {
 
-    List<Activity> findByUserId(Long userId);
-    List<Activity> findByUserIdAndStatus(Long userId, ActivityStatus status);
-    List<Activity> findByUserIdAndCategory(Long userId, CategoryType category);
-    List<Activity> findByUserIdAndCategoryAndStatus(Long userId, CategoryType category, ActivityStatus status);
+    Activity save(Activity activity);
+    Optional<Activity> findById(Long id);
+    boolean deleteById(Long id);
+    boolean existsById(Long id);
+
+    List<Activity> findByIsTemplate(boolean isTemplate);
+    List<Activity> findByCategoryAndIsTemplate(CategoryType category, boolean isTemplate);
+
+    List<Activity> findByUserIdAndIsTemplate(Long userId, boolean isTemplate);
+    List<Activity> findByUserIdStatusAndIsTemplate(Long userId, ActivityStatus status, boolean isTemplate);
+    List<Activity> findByUserIdCategoryAndIsTemplate(Long userId, CategoryType category, boolean isTemplate);
+    boolean existsByTitleUserIdAndIsTemplate(String title, Long userId, boolean isTemplate);
 }

@@ -4,6 +4,7 @@ import carpincha.aCore.valueObject.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.Instant;
 
@@ -14,6 +15,7 @@ import java.time.Instant;
 public class UserJpaEntity {
 
     @Id
+    @Setter
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_db_seq")
     @SequenceGenerator(name = "user_db_seq", sequenceName = "user_db_id_seq", allocationSize = 1)
     private Long id;
@@ -37,6 +39,4 @@ public class UserJpaEntity {
         this.role = Role.USER;
         this.createdAt = Instant.now();
     }
-
-    public void setId(Long id) { this.id = id; }
 }

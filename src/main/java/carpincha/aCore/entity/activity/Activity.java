@@ -10,8 +10,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Duration;
+import java.time.Instant;
 
 @Getter
 @Builder
@@ -20,9 +20,12 @@ import java.time.LocalDateTime;
 public class Activity {
 
     private Long id;
-    private User user;
     private String title;
     private String description;
+    @Builder.Default
+    private Boolean istTemplate = true;
+    @Builder.Default
+    private User user = null;
     @Builder.Default
     private CategoryType category = CategoryType.OTHER;
     @Builder.Default
@@ -32,9 +35,9 @@ public class Activity {
     @Builder.Default
     private PriorityLevel priority = PriorityLevel.MEDIUM;
     @Builder.Default
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private Integer estimatedDuration;
-    private LocalDate dueDate;
-    private LocalDateTime completedAt;
+    private Instant createdAt = Instant.now();
+    private Duration estimatedDuration;
+    private Instant dueMoment;
+    private Instant completedAt;
 
 }

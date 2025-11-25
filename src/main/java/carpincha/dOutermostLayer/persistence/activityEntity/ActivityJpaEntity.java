@@ -6,33 +6,34 @@ import carpincha.aCore.valueObject.FrequencyType;
 import carpincha.aCore.valueObject.PriorityLevel;
 import carpincha.dOutermostLayer.persistence.userEntity.UserJpaEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Duration;
 import java.time.Instant;
 
 @Entity
 @Getter
+@Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "activity")
 public class ActivityJpaEntity {
 
     @Id
-    @Setter
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activity_seq")
     @SequenceGenerator(name = "activity_seq", sequenceName = "activity_id_seq", allocationSize = 1)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String title;
 
     @Column
     private String description;
 
-    @Column
-    private Boolean isTemplate;
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean isTemplate = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -40,22 +41,27 @@ public class ActivityJpaEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private CategoryType category;
+    @Builder.Default
+    private CategoryType category = CategoryType.OTHER;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private FrequencyType frequency;
+    @Builder.Default
+    private FrequencyType frequency =  FrequencyType.DAILY;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ActivityStatus status;
+    @Builder.Default
+    private ActivityStatus status = ActivityStatus.PENDING;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PriorityLevel priority;
+    @Builder.Default
+    private PriorityLevel priority =  PriorityLevel.MEDIUM;
 
     @Column(nullable = false)
-    private Instant createdAt;
+    @Builder.Default
+    private Instant createdAt = Instant.now();
 
     @Column
     private Duration estimatedDuration;
@@ -66,14 +72,4 @@ public class ActivityJpaEntity {
     @Column
     private Instant completedAt;
 
-    public ActivityJpaEntity(String title) {
-        this.title = title;
-        this.isTemplate = true;
-        this.user = null;
-        this.category = CategoryType.OTHER;
-        this.frequency = FrequencyType.DAILY;
-        this.status = ActivityStatus.PENDING;
-        this.priority = PriorityLevel.MEDIUM;
-        this.createdAt = Instant.now();
-    }
 }

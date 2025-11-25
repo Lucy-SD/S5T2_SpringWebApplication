@@ -18,7 +18,7 @@ public interface ActivityRepository {
     List<Activity> findByCategoryAndIsTemplate(CategoryType category, boolean isTemplate);
 
     List<Activity> findByUserIdAndIsTemplate(Long userId, boolean isTemplate);
-    List<Activity> findByUserIdStatusAndIsTemplate(Long userId, ActivityStatus status, boolean isTemplate);
-    List<Activity> findByUserIdCategoryAndIsTemplate(Long userId, CategoryType category, boolean isTemplate);
-    boolean existsByTitleUserIdAndIsTemplate(String title, Long userId, boolean isTemplate);
+    List<Activity> findByUserIdAndStatusAndIsTemplate(Long userId, ActivityStatus status, boolean isTemplate);
+    List<Activity> findByUserIdAndCategoryAndIsTemplate(Long userId, CategoryType category, boolean isTemplate);
+    boolean existsByTitleAndUserIdAndIsTemplate(String title, Long userId, boolean isTemplate);
 }

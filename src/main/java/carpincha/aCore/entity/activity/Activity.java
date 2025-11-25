@@ -23,7 +23,7 @@ public class Activity {
     private String title;
     private String description;
     @Builder.Default
-    private Boolean istTemplate = true;
+    private Boolean isTemplate = false;
     @Builder.Default
     private User user = null;
     @Builder.Default

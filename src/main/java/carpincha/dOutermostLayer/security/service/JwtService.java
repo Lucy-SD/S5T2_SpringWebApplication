@@ -30,12 +30,26 @@ public class JwtService implements TokenService {
     @Override
     public String generateToken(User user) {
         return Jwts.builder()
-                .setSubject(user.getName())
+                .setSubject(user.getId().toString())
+                .claim("name", user.getName())
                 .claim("role", user.getRole().name())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey())
                 .compact();
+    }
+
+    @Override
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
     }
 
     @Override
@@ -45,7 +59,7 @@ public class JwtService implements TokenService {
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
-                .getSubject();
+                .get("name", String.class);
     }
 
     @Override
@@ -60,15 +74,13 @@ public class JwtService implements TokenService {
     }
 
     @Override
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(getSigningKey())
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
-        }
+    public Long extractUserId(String token) {
+        String userIdString = (Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject());
+        return Long.valueOf(userIdString);
     }
 }

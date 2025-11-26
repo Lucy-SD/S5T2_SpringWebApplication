@@ -1,22 +1,24 @@
 package carpincha.dOutermostLayer.persistence.mapper;
 
 import carpincha.aCore.entity.user.User;
-import carpincha.dOutermostLayer.persistence.UserJpaEntity;
+import carpincha.dOutermostLayer.persistence.userEntity.UserJpaEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
 
-    public UserJpaEntity toEntity (User user) {
+    public UserJpaEntity toEntity(User user) {
         UserJpaEntity entity = new UserJpaEntity(
                 user.getName(),
                 user.getEncodedPassword()
         );
-        entity.setId(user.getId());
+        if (user.getId() != null) {
+            entity.setId(user.getId());
+        }
         return entity;
     }
 
-    public User toDomain (UserJpaEntity entity) {
+    public User toDomain(UserJpaEntity entity) {
       return User.builder()
               .id(entity.getId())
               .name(entity.getName())

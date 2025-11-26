@@ -1,7 +1,6 @@
 package carpincha.aCore.entity.user;
 
 import carpincha.aCore.entity.activity.Activity;
-import carpincha.aCore.entity.animal.Animal;
 import carpincha.aCore.valueObject.Role;
 import lombok.*;
 
@@ -22,8 +21,6 @@ public class User {
     private Role role = Role.USER;
     @Builder.Default
     private Instant createdAt = Instant.now();
-    @Builder.Default
-    private List<Animal> animals = new ArrayList<>();
     @Builder.Default
     private List<Activity> activities = new ArrayList<>();
 }

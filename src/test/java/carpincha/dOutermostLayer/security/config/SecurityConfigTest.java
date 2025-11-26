@@ -1,4 +1,4 @@
-package carpincha.dOutermostLayer.security;
+package carpincha.dOutermostLayer.security.config;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

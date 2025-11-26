@@ -13,6 +13,7 @@ public record CreateActivityRequest(
         String title,
 
         String description,
+
         CategoryType category,
         FrequencyType frequency,
         PriorityLevel priority,

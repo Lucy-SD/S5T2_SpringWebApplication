@@ -1,6 +1,7 @@
 package carpincha.dOutermostLayer.security;
 
 import carpincha.aCore.serviceInterface.TokenService;
+import carpincha.aCore.valueObject.Role;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,14 +32,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
 
             if (tokenService.validateToken(token)) {
+                Long userId = tokenService.extractUserId(token);
                 String name = tokenService.extractName(token);
-                String role = tokenService.extractRole(token).name();
+                Role role = tokenService.extractRole(token);
+
+                UserPrincipal principal = new UserPrincipal(userId, name, role);
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
-                                name,
+                                principal,
                                 null,
-                                Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role))
+                                Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role.name()))
                         );
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

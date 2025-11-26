@@ -16,6 +16,12 @@ public class UserRepositoryAdapter implements UserRepository {
     private final UserMapper mapper;
 
     @Override
+    public User save(User user) {
+        UserJpaEntity savedEntity = repository.save(mapper.toEntity(user));
+        return mapper.toDomain(savedEntity);
+    }
+
+    @Override
     public boolean existsByName(String name) {
         return repository.existsByName(name);
     }
@@ -27,8 +33,8 @@ public class UserRepositoryAdapter implements UserRepository {
     }
 
     @Override
-    public User save(User user) {
-        UserJpaEntity savedEntity = repository.save(mapper.toEntity(user));
-        return mapper.toDomain(savedEntity);
+    public Optional<User> findById(Long id) {
+        return repository.findById(id)
+                .map(mapper::toDomain);
     }
 }

@@ -5,7 +5,8 @@ import carpincha.aCore.entity.user.User;
 import java.util.Optional;
 
 public interface UserRepository {
+    User save(User user);
     boolean existsByName(String name);
     Optional<User> findByName(String name);
-    User save(User user);
+    Optional<User> findById(Long id);
 }

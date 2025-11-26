@@ -39,4 +39,9 @@ public class UserService implements UserServiceContract {
         Optional<User> user = repository.findByName(name);
         return user.orElseThrow(() -> new NotFoundException("Usuario"));
     }
+
+    @Override
+    public Optional<User> findById(Long id) {
+        return repository.findById(id);
+    }
 }

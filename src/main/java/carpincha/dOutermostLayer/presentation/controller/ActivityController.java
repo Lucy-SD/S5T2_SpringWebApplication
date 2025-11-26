@@ -24,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ActivityController {
 
-    private final ActivityService activityService;
+    private final ActivityService service;
     private final ActivityResponseMapper mapper;
 
     @PostMapping("/clone/{id}")
@@ -33,7 +33,7 @@ public class ActivityController {
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
 
         Long userId = userPrincipal.userId();
-        Activity activity = activityService.cloneTemplate(id, userId);
+        Activity activity = service.cloneTemplate(id, userId);
 
         return new ResponseEntity<>(mapper.toResponse(activity), HttpStatus.CREATED);
     }
@@ -44,7 +44,7 @@ public class ActivityController {
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
 
         Long userId = userPrincipal.userId();
-        Activity activity = activityService.createActivity(request, userId);
+        Activity activity = service.createActivity(request, userId);
 
         return new ResponseEntity<>(mapper.toResponse(activity), HttpStatus.CREATED);
     }
@@ -55,7 +55,7 @@ public class ActivityController {
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
 
         Long userId = userPrincipal.userId();
-        Activity activity = activityService.findActivityById(id, userId);
+        Activity activity = service.findActivityById(id, userId);
 
         return ResponseEntity.ok(mapper.toResponse(activity));
     }
@@ -67,7 +67,7 @@ public class ActivityController {
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
 
         Long userId = userPrincipal.userId();
-        Activity activity = activityService.updateActivity(id, request, userId);
+        Activity activity = service.updateActivity(id, request, userId);
 
         return ResponseEntity.ok(mapper.toResponse(activity));
     }
@@ -78,7 +78,7 @@ public class ActivityController {
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
 
         Long userId = userPrincipal.userId();
-        Activity activity = activityService.completeActivity(id, userId);
+        Activity activity = service.completeActivity(id, userId);
 
         return ResponseEntity.ok(mapper.toResponse(activity));
     }
@@ -89,7 +89,7 @@ public class ActivityController {
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
 
         Long userId = userPrincipal.userId();
-        Activity activity = activityService.uncompleteActivity(id, userId);
+        Activity activity = service.uncompleteActivity(id, userId);
 
         return ResponseEntity.ok(mapper.toResponse(activity));
     }
@@ -100,7 +100,7 @@ public class ActivityController {
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
 
         Long userId = userPrincipal.userId();
-        activityService.deleteActivity(id, userId);
+        service.deleteActivity(id, userId);
 
     return ResponseEntity.noContent().build();
     }
@@ -119,11 +119,11 @@ public class ActivityController {
         }
 
         if (category != null) {
-            activities = activityService.findActivitiesByUserIdAndCategory(userId, category);
+            activities = service.findActivitiesByUserIdAndCategory(userId, category);
         } else if (status != null) {
-            activities = activityService.findActivitiesByUserIdAndStatus(userId, status);
+            activities = service.findActivitiesByUserIdAndStatus(userId, status);
         } else {
-            activities = activityService.findActivitiesByUserId(userId);
+            activities = service.findActivitiesByUserId(userId);
         }
         return ResponseEntity.ok(mapper.toResponseList(activities));
     }

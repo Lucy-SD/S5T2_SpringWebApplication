@@ -34,13 +34,9 @@ public class TemplateController {
     public ResponseEntity<List<ActivityResponse>> getTemplates(
             @RequestParam(required = false) @Valid CategoryType category) {
 
-        List<Activity> activities;
-
-        if (category != null) {
-            activities = service.findTemplatesByCategory(category);
-        } else {
-            activities = service.findAllTemplates();
-        }
+        List<Activity> activities = category != null
+                ? service.findTemplatesByCategory(category)
+                : service.findAllTemplates();
 
         return ResponseEntity.ok(mapper.toResponseList(activities));
     }

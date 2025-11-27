@@ -40,6 +40,15 @@ public class TemplateService implements TemplatesServiceContract {
     }
 
     @Override
+    public Activity findTemplateById(Long id) {
+        Activity activity = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Plantilla"));
+        if (!activity.getIsTemplate())
+            throw new InvalidDataException("El recurso solisitaco no es una plantilla.");
+        return activity;
+    }
+
+    @Override
     public List<Activity> findTemplatesByCategory(CategoryType category) {
         return repository.findByCategoryAndIsTemplate(category, true);
     }

@@ -10,6 +10,7 @@ public interface TemplatesServiceContract {
 
     Activity createTemplate(CreateActivityRequest request);
     List<Activity> findAllTemplates();
+    Activity findTemplateById(Long id);
     List<Activity> findTemplatesByCategory(CategoryType category);
     boolean deleteTemplate(Long id);
 

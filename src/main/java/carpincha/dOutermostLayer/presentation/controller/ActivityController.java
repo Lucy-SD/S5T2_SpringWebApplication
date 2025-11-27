@@ -9,6 +9,7 @@ import carpincha.cApplicationService.dto.activity.request.UpdateActivityRequest;
 import carpincha.cApplicationService.dto.activity.response.ActivityResponse;
 import carpincha.cApplicationService.mapper.ActivityResponseMapper;
 import carpincha.cApplicationService.service.ActivityService;
+import carpincha.cApplicationService.service.TemplateService;
 import carpincha.dOutermostLayer.security.UserPrincipal;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,25 @@ import java.util.List;
 public class ActivityController {
 
     private final ActivityService service;
+    private final TemplateService templateService;
     private final ActivityResponseMapper mapper;
+
+    @GetMapping("/templates")
+    public ResponseEntity<List<ActivityResponse>> getAvailableTemplates(
+            @RequestParam(required = false) @Valid CategoryType category) {
+
+        List<Activity> activities = category != null
+                ? templateService.findTemplatesByCategory(category)
+                : templateService.findAllTemplates();
+
+        return ResponseEntity.ok(mapper.toResponseList(activities));
+    }
+
+    @GetMapping("/templates/{id}")
+    public ResponseEntity<ActivityResponse> getAvailableTemplate(@PathVariable Long id) {
+        Activity activity = templateService.findTemplateById(id);
+        return ResponseEntity.ok(mapper.toResponse(activity));
+    }
 
     @PostMapping("/clone/{id}")
     public ResponseEntity<ActivityResponse> cloneTemplate(
@@ -102,7 +121,7 @@ public class ActivityController {
         Long userId = userPrincipal.userId();
         service.deleteActivity(id, userId);
 
-    return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

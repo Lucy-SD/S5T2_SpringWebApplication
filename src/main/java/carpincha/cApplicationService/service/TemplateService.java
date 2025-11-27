@@ -7,8 +7,6 @@ import carpincha.aCore.exception.NotFoundException;
 import carpincha.aCore.repoInterface.ActivityRepository;
 import carpincha.aCore.serviceInterface.TemplatesServiceContract;
 import carpincha.aCore.valueObject.CategoryType;
-import carpincha.aCore.valueObject.FrequencyType;
-import carpincha.aCore.valueObject.PriorityLevel;
 import carpincha.cApplicationService.dto.activity.request.CreateActivityRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,24 +20,13 @@ import java.util.List;
 public class TemplateService implements TemplatesServiceContract {
 
     private final ActivityRepository repository;
-    private final UserService userService;
 
     @Override
     public Activity createTemplate(CreateActivityRequest request) {
         if (repository.existsByTitleAndUserIdAndIsTemplate(request.title(), null, true))
             throw new NameAlreadyExistsException();
 
-        Activity activity = Activity.builder()
-                .title(request.title())
-                .description(request.description())
-                .isTemplate(true)
-                .user(null)
-                .category(request.category() != null ? request.category() : CategoryType.OTHER)
-                .frequency(request.frequency() != null ? request.frequency() : FrequencyType.DAILY)
-                .priority(request.priority() != null ? request.priority() : PriorityLevel.MEDIUM)
-                .estimatedDuration(request.estimatedDuration())
-                .dueMoment(request.dueMoment())
-                .build();
+        Activity activity = Activity.fromTemplateRequest(request);
         Activity savedActivity = repository.save(activity);
 
         log.info("Plantilla de la Actividad '{}' creada correctamente.", request.title());

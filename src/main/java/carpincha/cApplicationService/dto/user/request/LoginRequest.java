@@ -1,4 +1,4 @@
-package carpincha.cApplicationService.dto.request;
+package carpincha.cApplicationService.dto.user.request;
 
 import jakarta.validation.constraints.NotBlank;
 

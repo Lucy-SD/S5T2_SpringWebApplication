@@ -5,7 +5,7 @@ import carpincha.aCore.serviceInterface.TokenService;
 import carpincha.aCore.serviceInterface.UserPasswordEncoder;
 import carpincha.aCore.serviceInterface.UserServiceContract;
 import carpincha.aCore.valueObject.Role;
-import carpincha.cApplicationService.dto.request.RegisterRequest;
+import carpincha.cApplicationService.dto.user.request.RegisterRequest;
 import carpincha.cApplicationService.dto.response.JwtResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

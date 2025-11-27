@@ -4,7 +4,7 @@ import carpincha.aCore.entity.user.User;
 import carpincha.aCore.repoInterface.UserRepository;
 import carpincha.aCore.serviceInterface.UserPasswordEncoder;
 import carpincha.aCore.serviceInterface.UserServiceContract;
-import carpincha.cApplicationService.dto.request.RegisterRequest;
+import carpincha.cApplicationService.dto.user.request.RegisterRequest;
 import carpincha.aCore.exception.NameAlreadyExistsException;
 import carpincha.aCore.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;

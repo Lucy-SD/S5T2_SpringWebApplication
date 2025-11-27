@@ -1,4 +1,4 @@
-package carpincha.cApplicationService.dto.response;
+package carpincha.cApplicationService.dto.user.response;
 
 public record LogoutResponse(
         String message,

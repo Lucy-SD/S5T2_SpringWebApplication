@@ -75,21 +75,7 @@ public class ActivityService implements ActivityServiceContract {
     public Activity updateActivity(Long id, UpdateActivityRequest request, Long userId) {
         Activity activity = findActivityById(id, userId);
 
-        Activity updatedActivity = Activity.builder()
-                .id(activity.getId())
-                .title(request.title() != null ? request.title() : activity.getTitle())
-                .description(request.description() != null ? request.description() : activity.getDescription())
-                .isTemplate(activity.getIsTemplate())
-                .user(activity.getUser())
-                .category(request.category() != null ? request.category() : activity.getCategory())
-                .frequency(request.frequency() != null ? request.frequency() : activity.getFrequency())
-                .status(request.status() != null ? request.status() : activity.getStatus())
-                .priority(request.priority() != null ? request.priority() : activity.getPriority())
-                .createdAt(activity.getCreatedAt())
-                .estimatedDuration(request.estimatedDuration() != null ? request.estimatedDuration() : activity.getEstimatedDuration())
-                .dueMoment(request.dueMoment() != null ? request.dueMoment() : activity.getDueMoment())
-                .completedAt(activity.getCompletedAt())
-                .build();
+        Activity updatedActivity = activity.withUpdate(request);
 
         repository.save(updatedActivity);
         log.info("Actividad actualizada correctamente.");

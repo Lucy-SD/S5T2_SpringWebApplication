@@ -5,7 +5,7 @@ import carpincha.aCore.exception.NameAlreadyExistsException;
 import carpincha.aCore.exception.NotFoundException;
 import carpincha.aCore.repoInterface.UserRepository;
 import carpincha.aCore.serviceInterface.UserPasswordEncoder;
-import carpincha.cApplicationService.dto.request.RegisterRequest;
+import carpincha.cApplicationService.dto.user.request.RegisterRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

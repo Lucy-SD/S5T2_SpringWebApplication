@@ -1,7 +1,7 @@
 package carpincha.dOutermostLayer.presentation.controller;
 
-import carpincha.cApplicationService.dto.request.LoginRequest;
-import carpincha.cApplicationService.dto.request.RegisterRequest;
+import carpincha.cApplicationService.dto.user.request.LoginRequest;
+import carpincha.cApplicationService.dto.user.request.RegisterRequest;
 import carpincha.cApplicationService.dto.response.JwtResponse;
 import carpincha.cApplicationService.service.AuthService;
 import jakarta.validation.Valid;

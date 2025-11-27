@@ -6,6 +6,7 @@ import carpincha.aCore.valueObject.CategoryType;
 import carpincha.aCore.valueObject.FrequencyType;
 import carpincha.aCore.valueObject.PriorityLevel;
 import carpincha.cApplicationService.dto.activity.request.CreateActivityRequest;
+import carpincha.cApplicationService.dto.activity.request.UpdateActivityRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,6 +41,20 @@ public class Activity {
     private Instant dueMoment;
     private Instant completedAt;
 
+    public static Activity fromTemplateRequest(CreateActivityRequest request) {
+        return Activity.builder()
+                .title(request.title())
+                .description(request.description())
+                .isTemplate(true)
+                .user(null)
+                .category(request.category() != null ? request.category() : CategoryType.OTHER)
+                .frequency(request.frequency() != null ? request.frequency() : FrequencyType.DAILY)
+                .priority(request.priority() != null ? request.priority() : PriorityLevel.MEDIUM)
+                .estimatedDuration(request.estimatedDuration())
+                .dueMoment(request.dueMoment())
+                .build();
+    }
+
     public static Activity fromTemplate(Activity template, User user) {
         return Activity.builder()
                 .id(null)
@@ -48,7 +63,10 @@ public class Activity {
                 .isTemplate(false)
                 .user(user)
                 .category(template.getCategory())
+                .frequency(template.getFrequency())
+                .status(template.getStatus())
                 .priority(template.getPriority())
+                .createdAt(Instant.now())
                 .estimatedDuration(template.getEstimatedDuration())
                 .dueMoment(template.getDueMoment())
                 .build();
@@ -67,6 +85,24 @@ public class Activity {
                 .createdAt(Instant.now())
                 .estimatedDuration(request.estimatedDuration())
                 .dueMoment(request.dueMoment())
+                .build();
+    }
+
+    public Activity withUpdate(UpdateActivityRequest request) {
+        return Activity.builder()
+                .id(this.id)
+                .title(request.title() != null ? request.title() : this.title)
+                .description(request.description() != null ? request.description() : this.description)
+                .isTemplate(this.isTemplate)
+                .user(this.user)
+                .category(request.category() != null ? request.category() : this.category)
+                .frequency(request.frequency() != null ? request.frequency() : this.frequency)
+                .status(request.status() != null ? request.status() : this.status)
+                .priority(request.priority() != null ? request.priority() : this.priority)
+                .createdAt(this.createdAt)
+                .estimatedDuration(request.estimatedDuration() != null ? request.estimatedDuration() : this.estimatedDuration)
+                .dueMoment(request.dueMoment() != null ? request.dueMoment() : this.dueMoment)
+                .completedAt(this.completedAt)
                 .build();
     }
 

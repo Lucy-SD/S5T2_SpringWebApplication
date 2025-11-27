@@ -10,11 +10,6 @@ import java.util.List;
 
 public interface ActivityServiceContract {
 
-    Activity createTemplate(CreateActivityRequest request);
-    List<Activity> findAllTemplates();
-    List<Activity> findTemplatesByCategory(CategoryType category);
-    boolean deleteTemplate(Long id);
-
     Activity cloneTemplate(Long id, Long userId);
 
     Activity createActivity(CreateActivityRequest request, Long userId);

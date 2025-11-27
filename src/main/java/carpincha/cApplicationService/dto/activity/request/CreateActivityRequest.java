@@ -5,7 +5,6 @@ import carpincha.aCore.valueObject.FrequencyType;
 import carpincha.aCore.valueObject.PriorityLevel;
 import jakarta.validation.constraints.NotBlank;
 
-import java.time.Duration;
 import java.time.Instant;
 
 public record CreateActivityRequest(
@@ -17,7 +16,7 @@ public record CreateActivityRequest(
         CategoryType category,
         FrequencyType frequency,
         PriorityLevel priority,
-        Duration estimatedDuration,
+        Integer estimatedDuration,
         Instant dueMoment
 ) {
 }

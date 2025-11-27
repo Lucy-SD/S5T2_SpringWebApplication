@@ -5,7 +5,6 @@ import carpincha.aCore.valueObject.CategoryType;
 import carpincha.aCore.valueObject.FrequencyType;
 import carpincha.aCore.valueObject.PriorityLevel;
 
-import java.time.Duration;
 import java.time.Instant;
 
 public record UpdateActivityRequest(
@@ -15,7 +14,7 @@ public record UpdateActivityRequest(
         FrequencyType frequency,
         ActivityStatus status,
         PriorityLevel priority,
-        Duration estimatedDuration,
+        Integer estimatedDuration,
         Instant dueMoment
 ) {
 }

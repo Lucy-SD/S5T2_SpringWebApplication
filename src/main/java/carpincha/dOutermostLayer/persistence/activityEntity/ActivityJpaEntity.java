@@ -8,7 +8,6 @@ import carpincha.dOutermostLayer.persistence.userEntity.UserJpaEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.Duration;
 import java.time.Instant;
 
 @Entity
@@ -64,7 +63,7 @@ public class ActivityJpaEntity {
     private Instant createdAt = Instant.now();
 
     @Column
-    private Duration estimatedDuration;
+    private Integer estimatedDuration;
 
     @Column
     private Instant dueMoment;

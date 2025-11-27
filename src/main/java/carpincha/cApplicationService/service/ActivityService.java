@@ -9,15 +9,12 @@ import carpincha.aCore.repoInterface.ActivityRepository;
 import carpincha.aCore.serviceInterface.ActivityServiceContract;
 import carpincha.aCore.valueObject.ActivityStatus;
 import carpincha.aCore.valueObject.CategoryType;
-import carpincha.aCore.valueObject.FrequencyType;
-import carpincha.aCore.valueObject.PriorityLevel;
 import carpincha.cApplicationService.dto.activity.request.CreateActivityRequest;
 import carpincha.cApplicationService.dto.activity.request.UpdateActivityRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.List;
 
 
@@ -30,51 +27,6 @@ public class ActivityService implements ActivityServiceContract {
     private final UserService userService;
 
     @Override
-    public Activity createTemplate(CreateActivityRequest request) {
-        if (repository.existsByTitleAndUserIdAndIsTemplate(request.title(), null, true))
-            throw new NameAlreadyExistsException();
-
-        Activity activity = Activity.builder()
-                .title(request.title())
-                .description(request.description())
-                .isTemplate(true)
-                .user(null)
-                .category(request.category() != null ? request.category() : CategoryType.OTHER)
-                .frequency(request.frequency() != null ? request.frequency() : FrequencyType.DAILY)
-                .priority(request.priority() != null ? request.priority() : PriorityLevel.MEDIUM)
-                .estimatedDuration(request.estimatedDuration())
-                .dueMoment(request.dueMoment())
-                .build();
-        Activity savedActivity = repository.save(activity);
-
-        log.info("Plantilla de la Actividad '{}' creada correctamente.", request.title());
-
-        return savedActivity;
-    }
-
-    @Override
-    public List<Activity> findAllTemplates() {
-        return repository.findByIsTemplate(true);
-    }
-
-    @Override
-    public List<Activity> findTemplatesByCategory(CategoryType category) {
-        return repository.findByCategoryAndIsTemplate(category, true);
-    }
-
-    @Override
-    public boolean deleteTemplate(Long id) {
-        Activity activity = repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Plantilla"));
-
-        if (!activity.getIsTemplate()) throw new InvalidDataException("El recurso solicitado no es una plantilla.");
-
-        log.info("Plantilla eliminada correctamente.");
-
-        return repository.deleteById(id);
-    }
-
-    @Override
     public Activity cloneTemplate(Long id, Long userId) {
         Activity activity = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Plantilla"));
@@ -84,20 +36,7 @@ public class ActivityService implements ActivityServiceContract {
         User user = userService.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Usuario"));
 
-        Activity clonedActivity = Activity.builder()
-                .id(null)
-                .title(activity.getTitle())
-                .description(activity.getDescription())
-                .isTemplate(false)
-                .user(user)
-                .category(activity.getCategory())
-                .frequency(activity.getFrequency())
-                .status(ActivityStatus.PENDING)
-                .priority(activity.getPriority())
-                .createdAt(Instant.now())
-                .estimatedDuration(activity.getEstimatedDuration())
-                .dueMoment(activity.getDueMoment())
-                .build();
+        Activity clonedActivity = Activity.fromTemplate(activity, user);
         Activity savedActivity = repository.save(clonedActivity);
 
         log.info("Actividad personalizada '{}' creada correctamente.", savedActivity.getTitle());
@@ -113,19 +52,7 @@ public class ActivityService implements ActivityServiceContract {
         if (repository.existsByTitleAndUserIdAndIsTemplate(request.title(), userId, false))
             throw new NameAlreadyExistsException();
 
-        Activity activity = Activity.builder()
-                .title(request.title())
-                .description(request.description())
-                .isTemplate(false)
-                .user(user)
-                .category(request.category() != null ? request.category() : CategoryType.OTHER)
-                .frequency(request.frequency() != null ? request.frequency() : FrequencyType.DAILY)
-                .status(ActivityStatus.PENDING)
-                .priority(request.priority() != null ? request.priority() : PriorityLevel.MEDIUM)
-                .createdAt(Instant.now())
-                .estimatedDuration(request.estimatedDuration())
-                .dueMoment(request.dueMoment())
-                .build();
+        Activity activity = Activity.fromRequest(request, user);
         Activity savedActivity = repository.save(activity);
 
         log.info("Actividad '{}' creada correctamente.", request.title());
@@ -174,21 +101,7 @@ public class ActivityService implements ActivityServiceContract {
     public Activity completeActivity(Long id, Long userId) {
         Activity activity = findActivityById(id, userId);
 
-        Activity completed = Activity.builder()
-                .id(activity.getId())
-                .title(activity.getTitle())
-                .description(activity.getDescription())
-                .isTemplate(activity.getIsTemplate())
-                .user(activity.getUser())
-                .category(activity.getCategory())
-                .frequency(activity.getFrequency())
-                .status(ActivityStatus.COMPLETED)
-                .priority(activity.getPriority())
-                .createdAt(activity.getCreatedAt())
-                .estimatedDuration(activity.getEstimatedDuration())
-                .dueMoment(activity.getDueMoment())
-                .completedAt(Instant.now())
-                .build();
+        Activity completed = activity.withStatus(ActivityStatus.COMPLETED);
 
         repository.save(completed);
         log.info("Actividad completada exitosamente. Felicidades ¡!");
@@ -200,21 +113,7 @@ public class ActivityService implements ActivityServiceContract {
     public Activity uncompleteActivity(Long id, Long userId) {
         Activity activity = findActivityById(id, userId);
 
-        Activity notCompleted = Activity.builder()
-                .id(activity.getId())
-                .title(activity.getTitle())
-                .description(activity.getDescription())
-                .isTemplate(activity.getIsTemplate())
-                .user(activity.getUser())
-                .category(activity.getCategory())
-                .frequency(activity.getFrequency())
-                .status(ActivityStatus.PENDING)
-                .priority(activity.getPriority())
-                .createdAt(activity.getCreatedAt())
-                .estimatedDuration(activity.getEstimatedDuration())
-                .dueMoment(activity.getDueMoment())
-                .completedAt(null)
-                .build();
+        Activity notCompleted = activity.withStatus(ActivityStatus.PENDING);
 
         repository.save(notCompleted);
         log.info("Se marcó la actividad como pendiente.");

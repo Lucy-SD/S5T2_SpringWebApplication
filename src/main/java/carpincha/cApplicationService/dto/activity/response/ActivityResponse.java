@@ -5,7 +5,6 @@ import carpincha.aCore.valueObject.CategoryType;
 import carpincha.aCore.valueObject.FrequencyType;
 import carpincha.aCore.valueObject.PriorityLevel;
 
-import java.time.Duration;
 import java.time.Instant;
 
 public record ActivityResponse(
@@ -17,7 +16,7 @@ public record ActivityResponse(
         ActivityStatus status,
         PriorityLevel priority,
         Instant createdAt,
-        Duration estimatedDuration,
+        Integer estimatedDuration,
         Instant dueMoment,
         Instant completedAt
 ) {

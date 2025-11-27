@@ -5,7 +5,7 @@ import carpincha.aCore.valueObject.CategoryType;
 import carpincha.cApplicationService.dto.activity.request.CreateActivityRequest;
 import carpincha.cApplicationService.dto.activity.response.ActivityResponse;
 import carpincha.cApplicationService.mapper.ActivityResponseMapper;
-import carpincha.cApplicationService.service.ActivityService;
+import carpincha.cApplicationService.service.TemplateService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TemplateController {
 
-    private final ActivityService service;
+    private final TemplateService service;
     private final ActivityResponseMapper mapper;
 
     @PostMapping
@@ -32,7 +32,7 @@ public class TemplateController {
 
     @GetMapping
     public ResponseEntity<List<ActivityResponse>> getTemplates(
-            @RequestParam @Valid CategoryType category) {
+            @RequestParam(required = false) @Valid CategoryType category) {
 
         List<Activity> activities;
 

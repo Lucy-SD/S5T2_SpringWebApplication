@@ -44,7 +44,7 @@ public class TemplateService implements TemplatesServiceContract {
         Activity activity = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Plantilla"));
         if (!activity.getIsTemplate())
-            throw new InvalidDataException("El recurso solisitaco no es una plantilla.");
+            throw new InvalidDataException("El recurso solicitado no es una plantilla.");
         return activity;
     }
 

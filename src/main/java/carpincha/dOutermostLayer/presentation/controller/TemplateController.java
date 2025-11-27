@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/admin/templates")
+@RequestMapping("/api/admin/templates")
 @RequiredArgsConstructor
 public class TemplateController {
 
@@ -32,7 +32,7 @@ public class TemplateController {
 
     @GetMapping
     public ResponseEntity<List<ActivityResponse>> getTemplates(
-            @RequestParam(required = false) @Valid CategoryType category) {
+            @RequestParam(required = false) CategoryType category) {
 
         List<Activity> activities = category != null
                 ? service.findTemplatesByCategory(category)

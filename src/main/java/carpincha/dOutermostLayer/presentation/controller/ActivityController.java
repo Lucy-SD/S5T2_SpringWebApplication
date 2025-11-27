@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/activities")
+@RequestMapping("/api/activities")
 @RequiredArgsConstructor
 public class ActivityController {
 
@@ -31,7 +31,7 @@ public class ActivityController {
 
     @GetMapping("/templates")
     public ResponseEntity<List<ActivityResponse>> getAvailableTemplates(
-            @RequestParam(required = false) @Valid CategoryType category) {
+            @RequestParam(required = false) CategoryType category) {
 
         List<Activity> activities = category != null
                 ? templateService.findTemplatesByCategory(category)
@@ -57,17 +57,6 @@ public class ActivityController {
         return new ResponseEntity<>(mapper.toResponse(activity), HttpStatus.CREATED);
     }
 
-    @PostMapping
-    public ResponseEntity<ActivityResponse> createActivity(
-            @RequestBody @Valid CreateActivityRequest request,
-            @AuthenticationPrincipal UserPrincipal userPrincipal) {
-
-        Long userId = userPrincipal.userId();
-        Activity activity = service.createActivity(request, userId);
-
-        return new ResponseEntity<>(mapper.toResponse(activity), HttpStatus.CREATED);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<ActivityResponse> getActivityById(
             @PathVariable Long id,
@@ -77,6 +66,40 @@ public class ActivityController {
         Activity activity = service.findActivityById(id, userId);
 
         return ResponseEntity.ok(mapper.toResponse(activity));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ActivityResponse>> getActivities(
+            @RequestParam(required = false) ActivityStatus status,
+            @RequestParam(required = false) CategoryType category,
+            @AuthenticationPrincipal UserPrincipal userPrincipal) {
+
+        Long userId = userPrincipal.userId();
+        List<Activity> activities;
+
+        if (status != null && category != null) {
+            throw new InvalidDataException("Seleccione un solo filro.");
+        }
+
+        if (category != null) {
+            activities = service.findActivitiesByUserIdAndCategory(userId, category);
+        } else if (status != null) {
+            activities = service.findActivitiesByUserIdAndStatus(userId, status);
+        } else {
+            activities = service.findActivitiesByUserId(userId);
+        }
+        return ResponseEntity.ok(mapper.toResponseList(activities));
+    }
+
+    @PostMapping
+    public ResponseEntity<ActivityResponse> createActivity(
+            @RequestBody @Valid CreateActivityRequest request,
+            @AuthenticationPrincipal UserPrincipal userPrincipal) {
+
+        Long userId = userPrincipal.userId();
+        Activity activity = service.createActivity(request, userId);
+
+        return new ResponseEntity<>(mapper.toResponse(activity), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
@@ -123,28 +146,4 @@ public class ActivityController {
 
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping
-    public ResponseEntity<List<ActivityResponse>> getActivities(
-            @RequestParam(required = false) ActivityStatus status,
-            @RequestParam(required = false) CategoryType category,
-            @AuthenticationPrincipal UserPrincipal userPrincipal) {
-
-        Long userId = userPrincipal.userId();
-        List<Activity> activities;
-
-        if (status != null && category != null) {
-            throw new InvalidDataException("Seleccione un solo filro.");
-        }
-
-        if (category != null) {
-            activities = service.findActivitiesByUserIdAndCategory(userId, category);
-        } else if (status != null) {
-            activities = service.findActivitiesByUserIdAndStatus(userId, status);
-        } else {
-            activities = service.findActivitiesByUserId(userId);
-        }
-        return ResponseEntity.ok(mapper.toResponseList(activities));
-    }
-
 }

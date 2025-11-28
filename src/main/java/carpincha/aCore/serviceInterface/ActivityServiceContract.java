@@ -10,6 +10,10 @@ import java.util.List;
 
 public interface ActivityServiceContract {
 
+    List<Activity> findAllActivities(ActivityStatus status, CategoryType category);
+    List<Activity> findAllTemplates(CategoryType category);
+    Activity findActivityByIdAdmin(Long id);
+
     Activity cloneTemplate(Long id, Long userId);
 
     Activity createActivity(CreateActivityRequest request, Long userId);
@@ -22,9 +26,4 @@ public interface ActivityServiceContract {
     List<Activity> findActivitiesByUserId(Long userId);
     List<Activity> findActivitiesByUserIdAndStatus(Long userId, ActivityStatus status);
     List<Activity> findActivitiesByUserIdAndCategory(Long userId, CategoryType category);
-
-
-
-
-
 }

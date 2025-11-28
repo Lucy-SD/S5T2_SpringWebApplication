@@ -7,7 +7,7 @@ import carpincha.aCore.valueObject.CategoryType;
 import carpincha.cApplicationService.dto.activity.request.CreateActivityRequest;
 import carpincha.cApplicationService.dto.activity.request.UpdateActivityRequest;
 import carpincha.cApplicationService.dto.activity.response.ActivityResponse;
-import carpincha.cApplicationService.mapper.ActivityResponseMapper;
+import carpincha.cApplicationService.mapper.response.ActivityResponseMapper;
 import carpincha.cApplicationService.service.ActivityService;
 import carpincha.cApplicationService.service.TemplateService;
 import carpincha.dOutermostLayer.security.UserPrincipal;
@@ -76,10 +76,6 @@ public class ActivityController {
 
         Long userId = userPrincipal.userId();
         List<Activity> activities;
-
-        if (status != null && category != null) {
-            throw new InvalidDataException("Seleccione un solo filro.");
-        }
 
         if (category != null) {
             activities = service.findActivitiesByUserIdAndCategory(userId, category);

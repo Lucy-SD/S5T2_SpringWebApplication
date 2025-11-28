@@ -6,9 +6,10 @@ import carpincha.aCore.exception.NameAlreadyExistsException;
 import carpincha.aCore.exception.NotFoundException;
 import carpincha.aCore.repoInterface.ActivityRepository;
 import carpincha.aCore.serviceInterface.TemplatesServiceContract;
+import carpincha.aCore.valueObject.ActivityParams;
 import carpincha.aCore.valueObject.CategoryType;
-import carpincha.aCore.valueObject.FrequencyType;
 import carpincha.cApplicationService.dto.activity.request.CreateActivityRequest;
+import carpincha.cApplicationService.mapper.request.ActivityRequestMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,18 +22,16 @@ import java.util.List;
 public class TemplateService implements TemplatesServiceContract {
 
     private final ActivityRepository repository;
+    private final ActivityRequestMapper mapper;
 
     @Override
     public Activity createTemplate(CreateActivityRequest request) {
 
-        if (request.frequency() == FrequencyType.CUSTOM && (request.customFrequencyValue() == null || request.customFrequencyUnit() == null)) {
-                throw new InvalidDataException("La frecuencia personalizada requiere tiempo y unidad.");
-            }
-
         if (repository.existsByTitleAndUserIdAndIsTemplate(request.title(), null, true))
             throw new NameAlreadyExistsException();
 
-        Activity activity = Activity.fromTemplateRequest(request);
+        ActivityParams params = mapper.toParams(request);
+        Activity activity = Activity.fromTemplateRequest(params);
         Activity savedActivity = repository.save(activity);
 
         log.info("Plantilla de la Actividad '{}' creada correctamente.", request.title());

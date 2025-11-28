@@ -1,4 +1,4 @@
-package carpincha.cApplicationService.mapper;
+package carpincha.cApplicationService.mapper.response;
 
 import carpincha.aCore.entity.activity.Activity;
 import carpincha.cApplicationService.dto.activity.response.ActivityResponse;

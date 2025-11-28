@@ -60,6 +60,13 @@ public class ActivityRepositoryAdapter implements ActivityRepository {
     }
 
     @Override
+    public List<Activity> findByStatusAndIsTemplate(ActivityStatus status, boolean isTemplate) {
+        return repository.findByStatusAndIsTemplate(status, isTemplate).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<Activity> findByUserIdAndIsTemplate(Long userId, boolean isTemplate) {
         return repository.findByUser_IdAndIsTemplate(userId, isTemplate).stream()
                 .map(mapper::toDomain)

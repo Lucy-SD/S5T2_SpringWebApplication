@@ -16,6 +16,7 @@ public interface ActivityRepository {
 
     List<Activity> findByIsTemplate(boolean isTemplate);
     List<Activity> findByCategoryAndIsTemplate(CategoryType category, boolean isTemplate);
+    List<Activity> findByStatusAndIsTemplate(ActivityStatus status, boolean isTemplate);
 
     List<Activity> findByUserIdAndIsTemplate(Long userId, boolean isTemplate);
     List<Activity> findByUserIdAndStatusAndIsTemplate(Long userId, ActivityStatus status, boolean isTemplate);

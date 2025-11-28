@@ -6,12 +6,14 @@ import carpincha.aCore.exception.InvalidDataException;
 import carpincha.aCore.exception.NameAlreadyExistsException;
 import carpincha.aCore.exception.NotFoundException;
 import carpincha.aCore.repoInterface.ActivityRepository;
+import carpincha.aCore.repoInterface.UserRepository;
 import carpincha.aCore.serviceInterface.ActivityServiceContract;
+import carpincha.aCore.valueObject.ActivityParams;
 import carpincha.aCore.valueObject.ActivityStatus;
 import carpincha.aCore.valueObject.CategoryType;
-import carpincha.aCore.valueObject.FrequencyType;
 import carpincha.cApplicationService.dto.activity.request.CreateActivityRequest;
 import carpincha.cApplicationService.dto.activity.request.UpdateActivityRequest;
+import carpincha.cApplicationService.mapper.request.ActivityRequestMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,40 @@ import java.util.List;
 public class ActivityService implements ActivityServiceContract {
 
     private final ActivityRepository repository;
-    private final UserService userService;
+    private final UserRepository userRepository;
+    private final ActivityRequestMapper mapper;
+
+
+    @Override
+    public List<Activity> findAllActivities(ActivityStatus status, CategoryType category) {
+        if (status != null && category != null) {
+            throw new InvalidDataException("Seleccione un solo filtro.");
+        }
+        if (status != null) {
+            return repository.findByStatusAndIsTemplate(status, false);
+        }
+        if (category != null) {
+            return repository.findByCategoryAndIsTemplate(category, false);
+        }
+        return repository.findByIsTemplate(false);
+    }
+
+    @Override
+    public List<Activity> findAllTemplates(CategoryType category) {
+        if (category != null) {
+            return repository.findByCategoryAndIsTemplate(category, true);
+        }
+        return repository.findByIsTemplate(true);
+    }
+
+    @Override
+    public Activity findActivityByIdAdmin(Long id) {
+        Activity activity = repository.findById(id).orElseThrow(() -> new NotFoundException("Actividad"));
+
+        if (!activity.getIsTemplate()) log.warn("Cuidado, esta es una actividad de un usuario.");
+
+        return activity;
+    }
 
     @Override
     public Activity cloneTemplate(Long id, Long userId) {
@@ -34,7 +69,7 @@ public class ActivityService implements ActivityServiceContract {
 
         if (!activity.getIsTemplate()) throw new InvalidDataException("El recurso solicitado no es una plantilla.");
 
-        User user = userService.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Usuario"));
 
         Activity clonedActivity = Activity.fromTemplate(activity, user);
@@ -47,18 +82,14 @@ public class ActivityService implements ActivityServiceContract {
 
     @Override
     public Activity createActivity(CreateActivityRequest request, Long userId) {
-
-        if (request.frequency() == FrequencyType.CUSTOM && (request.customFrequencyValue() == null || request.customFrequencyUnit() == null)) {
-                throw new InvalidDataException("La frecuencia personalizada requiere tiempo y unidad.");
-            }
-
-        User user = userService.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Usuario"));
 
         if (repository.existsByTitleAndUserIdAndIsTemplate(request.title(), userId, false))
             throw new NameAlreadyExistsException();
 
-        Activity activity = Activity.fromRequest(request, user);
+        ActivityParams params = mapper.toParams(request);
+        Activity activity = Activity.fromRequest(params, user);
         Activity savedActivity = repository.save(activity);
 
         log.info("Actividad '{}' creada correctamente.", request.title());
@@ -80,13 +111,9 @@ public class ActivityService implements ActivityServiceContract {
 
     @Override
     public Activity updateActivity(Long id, UpdateActivityRequest request, Long userId) {
+        ActivityParams params = mapper.toParams(request);
         Activity activity = findActivityById(id, userId);
-
-        if (request.frequency() == FrequencyType.CUSTOM && (request.customFrequencyValue() == null || request.customFrequencyUnit() == null)) {
-                throw new InvalidDataException("La frecuencia personalizada requiere tiempo y unidad.");
-            }
-
-        Activity updatedActivity = activity.withUpdate(request);
+        Activity updatedActivity = activity.withUpdate(params);
 
         repository.save(updatedActivity);
         log.info("Actividad actualizada correctamente.");
@@ -97,7 +124,6 @@ public class ActivityService implements ActivityServiceContract {
     @Override
     public Activity completeActivity(Long id, Long userId) {
         Activity activity = findActivityById(id, userId);
-
         Activity completed = activity.withStatus(ActivityStatus.COMPLETED);
 
         repository.save(completed);

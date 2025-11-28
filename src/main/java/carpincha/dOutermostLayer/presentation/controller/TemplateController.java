@@ -4,7 +4,7 @@ import carpincha.aCore.entity.activity.Activity;
 import carpincha.aCore.valueObject.CategoryType;
 import carpincha.cApplicationService.dto.activity.request.CreateActivityRequest;
 import carpincha.cApplicationService.dto.activity.response.ActivityResponse;
-import carpincha.cApplicationService.mapper.ActivityResponseMapper;
+import carpincha.cApplicationService.mapper.response.ActivityResponseMapper;
 import carpincha.cApplicationService.service.TemplateService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

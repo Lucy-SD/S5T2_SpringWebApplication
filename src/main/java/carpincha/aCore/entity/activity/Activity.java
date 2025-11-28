@@ -2,8 +2,6 @@ package carpincha.aCore.entity.activity;
 
 import carpincha.aCore.entity.user.User;
 import carpincha.aCore.valueObject.*;
-import carpincha.cApplicationService.dto.activity.request.CreateActivityRequest;
-import carpincha.cApplicationService.dto.activity.request.UpdateActivityRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,19 +38,19 @@ public class Activity {
     private Instant dueMoment;
     private Instant completedAt;
 
-    public static Activity fromTemplateRequest(CreateActivityRequest request) {
+    public static Activity fromTemplateRequest(ActivityParams params) {
         return Activity.builder()
-                .title(request.title())
-                .description(request.description())
+                .title(params.title())
+                .description(params.description())
                 .isTemplate(true)
                 .user(null)
-                .category(request.category() != null ? request.category() : CategoryType.OTHER)
-                .frequency(request.frequency() != null ? request.frequency() : FrequencyType.DAILY)
-                .customFrequencyValue(request.customFrequencyValue())
-                .customFrequencyUnit(request.customFrequencyUnit())
-                .priority(request.priority() != null ? request.priority() : PriorityLevel.MEDIUM)
-                .estimatedDuration(request.estimatedDuration())
-                .dueMoment(request.dueMoment())
+                .category(params.category() != null ? params.category() : CategoryType.OTHER)
+                .frequency(params.frequency() != null ? params.frequency() : FrequencyType.DAILY)
+                .customFrequencyValue(params.customFrequencyValue())
+                .customFrequencyUnit(params.customFrequencyUnit())
+                .priority(params.priority() != null ? params.priority() : PriorityLevel.MEDIUM)
+                .estimatedDuration(params.estimatedDuration())
+                .dueMoment(params.dueMoment())
                 .build();
     }
 
@@ -75,40 +73,40 @@ public class Activity {
                 .build();
     }
 
-    public static Activity fromRequest(CreateActivityRequest request, User user) {
+    public static Activity fromRequest(ActivityParams params, User user) {
         return Activity.builder()
-                .title(request.title())
-                .description(request.description())
+                .title(params.title())
+                .description(params.description())
                 .isTemplate(false)
                 .user(user)
-                .category(request.category() != null ? request.category() : CategoryType.OTHER)
-                .frequency(request.frequency() != null ? request.frequency() : FrequencyType.DAILY)
-                .customFrequencyValue(request.customFrequencyValue())
-                .customFrequencyUnit(request.customFrequencyUnit())
+                .category(params.category() != null ? params.category() : CategoryType.OTHER)
+                .frequency(params.frequency() != null ? params.frequency() : FrequencyType.DAILY)
+                .customFrequencyValue(params.customFrequencyValue())
+                .customFrequencyUnit(params.customFrequencyUnit())
                 .status(ActivityStatus.PENDING)
-                .priority(request.priority() != null ? request.priority() : PriorityLevel.MEDIUM)
+                .priority(params.priority() != null ? params.priority() : PriorityLevel.MEDIUM)
                 .createdAt(Instant.now())
-                .estimatedDuration(request.estimatedDuration())
-                .dueMoment(request.dueMoment())
+                .estimatedDuration(params.estimatedDuration())
+                .dueMoment(params.dueMoment())
                 .build();
     }
 
-    public Activity withUpdate(UpdateActivityRequest request) {
+    public Activity withUpdate(ActivityParams params) {
         return Activity.builder()
                 .id(this.id)
-                .title(request.title() != null ? request.title() : this.title)
-                .description(request.description() != null ? request.description() : this.description)
+                .title(params.title() != null ? params.title() : this.title)
+                .description(params.description() != null ? params.description() : this.description)
                 .isTemplate(this.isTemplate)
                 .user(this.user)
-                .category(request.category() != null ? request.category() : this.category)
-                .frequency(request.frequency() != null ? request.frequency() : this.frequency)
-                .customFrequencyValue(request.customFrequencyValue() != null ? request.customFrequencyValue() : this.customFrequencyValue)
-                .customFrequencyUnit(request.customFrequencyUnit() != null ? request.customFrequencyUnit() : this.customFrequencyUnit)
-                .status(request.status() != null ? request.status() : this.status)
-                .priority(request.priority() != null ? request.priority() : this.priority)
+                .category(params.category() != null ? params.category() : this.category)
+                .frequency(params.frequency() != null ? params.frequency() : this.frequency)
+                .customFrequencyValue(params.customFrequencyValue() != null ? params.customFrequencyValue() : this.customFrequencyValue)
+                .customFrequencyUnit(params.customFrequencyUnit() != null ? params.customFrequencyUnit() : this.customFrequencyUnit)
+                .status(params.status() != null ? params.status() : this.status)
+                .priority(params.priority() != null ? params.priority() : this.priority)
                 .createdAt(this.createdAt)
-                .estimatedDuration(request.estimatedDuration() != null ? request.estimatedDuration() : this.estimatedDuration)
-                .dueMoment(request.dueMoment() != null ? request.dueMoment() : this.dueMoment)
+                .estimatedDuration(params.estimatedDuration() != null ? params.estimatedDuration() : this.estimatedDuration)
+                .dueMoment(params.dueMoment() != null ? params.dueMoment() : this.dueMoment)
                 .completedAt(this.completedAt)
                 .build();
     }

@@ -1,4 +1,4 @@
-package carpincha.cApplicationService.dto.response;
+package carpincha.cApplicationService.dto.validation;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;

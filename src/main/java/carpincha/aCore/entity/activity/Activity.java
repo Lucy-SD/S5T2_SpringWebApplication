@@ -1,10 +1,7 @@
 package carpincha.aCore.entity.activity;
 
 import carpincha.aCore.entity.user.User;
-import carpincha.aCore.valueObject.ActivityStatus;
-import carpincha.aCore.valueObject.CategoryType;
-import carpincha.aCore.valueObject.FrequencyType;
-import carpincha.aCore.valueObject.PriorityLevel;
+import carpincha.aCore.valueObject.*;
 import carpincha.cApplicationService.dto.activity.request.CreateActivityRequest;
 import carpincha.cApplicationService.dto.activity.request.UpdateActivityRequest;
 import lombok.AllArgsConstructor;
@@ -31,6 +28,8 @@ public class Activity {
     private CategoryType category = CategoryType.OTHER;
     @Builder.Default
     private FrequencyType frequency = FrequencyType.DAILY;
+    private Integer customFrequencyValue;
+    private FrequencyUnit customFrequencyUnit;
     @Builder.Default
     private ActivityStatus status = ActivityStatus.PENDING;
     @Builder.Default
@@ -49,6 +48,8 @@ public class Activity {
                 .user(null)
                 .category(request.category() != null ? request.category() : CategoryType.OTHER)
                 .frequency(request.frequency() != null ? request.frequency() : FrequencyType.DAILY)
+                .customFrequencyValue(request.customFrequencyValue())
+                .customFrequencyUnit(request.customFrequencyUnit())
                 .priority(request.priority() != null ? request.priority() : PriorityLevel.MEDIUM)
                 .estimatedDuration(request.estimatedDuration())
                 .dueMoment(request.dueMoment())
@@ -64,6 +65,8 @@ public class Activity {
                 .user(user)
                 .category(template.getCategory())
                 .frequency(template.getFrequency())
+                .customFrequencyValue(template.getCustomFrequencyValue())
+                .customFrequencyUnit(template.getCustomFrequencyUnit())
                 .status(template.getStatus())
                 .priority(template.getPriority())
                 .createdAt(Instant.now())
@@ -80,6 +83,8 @@ public class Activity {
                 .user(user)
                 .category(request.category() != null ? request.category() : CategoryType.OTHER)
                 .frequency(request.frequency() != null ? request.frequency() : FrequencyType.DAILY)
+                .customFrequencyValue(request.customFrequencyValue())
+                .customFrequencyUnit(request.customFrequencyUnit())
                 .status(ActivityStatus.PENDING)
                 .priority(request.priority() != null ? request.priority() : PriorityLevel.MEDIUM)
                 .createdAt(Instant.now())
@@ -97,6 +102,8 @@ public class Activity {
                 .user(this.user)
                 .category(request.category() != null ? request.category() : this.category)
                 .frequency(request.frequency() != null ? request.frequency() : this.frequency)
+                .customFrequencyValue(request.customFrequencyValue() != null ? request.customFrequencyValue() : this.customFrequencyValue)
+                .customFrequencyUnit(request.customFrequencyUnit() != null ? request.customFrequencyUnit() : this.customFrequencyUnit)
                 .status(request.status() != null ? request.status() : this.status)
                 .priority(request.priority() != null ? request.priority() : this.priority)
                 .createdAt(this.createdAt)
@@ -115,6 +122,8 @@ public class Activity {
                 .user(this.user)
                 .category(this.category)
                 .frequency(this.frequency)
+                .customFrequencyValue(this.customFrequencyValue)
+                .customFrequencyUnit(this.customFrequencyUnit)
                 .status(status)
                 .priority(this.priority)
                 .createdAt(this.createdAt)

@@ -1,9 +1,6 @@
 package carpincha.cApplicationService.dto.activity.response;
 
-import carpincha.aCore.valueObject.ActivityStatus;
-import carpincha.aCore.valueObject.CategoryType;
-import carpincha.aCore.valueObject.FrequencyType;
-import carpincha.aCore.valueObject.PriorityLevel;
+import carpincha.aCore.valueObject.*;
 
 import java.time.Instant;
 
@@ -13,6 +10,8 @@ public record ActivityResponse(
         String description,
         CategoryType category,
         FrequencyType frequency,
+        Integer customFrequencyValue,
+        FrequencyUnit customFrequencyUnit,
         ActivityStatus status,
         PriorityLevel priority,
         Instant createdAt,

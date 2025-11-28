@@ -9,6 +9,7 @@ import carpincha.aCore.repoInterface.ActivityRepository;
 import carpincha.aCore.serviceInterface.ActivityServiceContract;
 import carpincha.aCore.valueObject.ActivityStatus;
 import carpincha.aCore.valueObject.CategoryType;
+import carpincha.aCore.valueObject.FrequencyType;
 import carpincha.cApplicationService.dto.activity.request.CreateActivityRequest;
 import carpincha.cApplicationService.dto.activity.request.UpdateActivityRequest;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +47,11 @@ public class ActivityService implements ActivityServiceContract {
 
     @Override
     public Activity createActivity(CreateActivityRequest request, Long userId) {
+
+        if (request.frequency() == FrequencyType.CUSTOM && (request.customFrequencyValue() == null || request.customFrequencyUnit() == null)) {
+                throw new InvalidDataException("La frecuencia personalizada requiere tiempo y unidad.");
+            }
+
         User user = userService.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Usuario"));
 
@@ -59,6 +65,7 @@ public class ActivityService implements ActivityServiceContract {
 
         return savedActivity;
     }
+
 
     @Override
     public Activity findActivityById(Long id, Long userId) {
@@ -74,6 +81,10 @@ public class ActivityService implements ActivityServiceContract {
     @Override
     public Activity updateActivity(Long id, UpdateActivityRequest request, Long userId) {
         Activity activity = findActivityById(id, userId);
+
+        if (request.frequency() == FrequencyType.CUSTOM && (request.customFrequencyValue() == null || request.customFrequencyUnit() == null)) {
+                throw new InvalidDataException("La frecuencia personalizada requiere tiempo y unidad.");
+            }
 
         Activity updatedActivity = activity.withUpdate(request);
 

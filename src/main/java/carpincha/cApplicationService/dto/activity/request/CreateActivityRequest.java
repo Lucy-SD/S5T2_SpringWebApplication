@@ -2,8 +2,10 @@ package carpincha.cApplicationService.dto.activity.request;
 
 import carpincha.aCore.valueObject.CategoryType;
 import carpincha.aCore.valueObject.FrequencyType;
+import carpincha.aCore.valueObject.FrequencyUnit;
 import carpincha.aCore.valueObject.PriorityLevel;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 import java.time.Instant;
 
@@ -15,6 +17,11 @@ public record CreateActivityRequest(
 
         CategoryType category,
         FrequencyType frequency,
+
+        @Positive(message = "El valor de la frecuencia debe ser mayor a cero.")
+        Integer customFrequencyValue,
+
+        FrequencyUnit customFrequencyUnit,
         PriorityLevel priority,
         Integer estimatedDuration,
         Instant dueMoment

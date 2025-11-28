@@ -6,7 +6,7 @@ import carpincha.aCore.serviceInterface.UserPasswordEncoder;
 import carpincha.aCore.serviceInterface.UserServiceContract;
 import carpincha.cApplicationService.dto.user.request.LoginRequest;
 import carpincha.cApplicationService.dto.user.request.RegisterRequest;
-import carpincha.cApplicationService.dto.response.JwtResponse;
+import carpincha.cApplicationService.dto.validation.JwtResponse;
 import carpincha.aCore.exception.InvalidCredentialsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

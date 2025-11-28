@@ -16,6 +16,8 @@ public class ActivityResponseMapper {
                 activity.getDescription(),
                 activity.getCategory(),
                 activity.getFrequency(),
+                activity.getCustomFrequencyValue(),
+                activity.getCustomFrequencyUnit(),
                 activity.getStatus(),
                 activity.getPriority(),
                 activity.getCreatedAt(),

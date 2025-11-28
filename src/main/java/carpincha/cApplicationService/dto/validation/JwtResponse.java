@@ -1,4 +1,4 @@
-package carpincha.cApplicationService.dto.response;
+package carpincha.cApplicationService.dto.validation;
 
 import carpincha.aCore.valueObject.Role;
 

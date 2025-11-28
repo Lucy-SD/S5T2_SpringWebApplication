@@ -7,6 +7,7 @@ import carpincha.aCore.exception.NotFoundException;
 import carpincha.aCore.repoInterface.ActivityRepository;
 import carpincha.aCore.serviceInterface.TemplatesServiceContract;
 import carpincha.aCore.valueObject.CategoryType;
+import carpincha.aCore.valueObject.FrequencyType;
 import carpincha.cApplicationService.dto.activity.request.CreateActivityRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,11 @@ public class TemplateService implements TemplatesServiceContract {
 
     @Override
     public Activity createTemplate(CreateActivityRequest request) {
+
+        if (request.frequency() == FrequencyType.CUSTOM && (request.customFrequencyValue() == null || request.customFrequencyUnit() == null)) {
+                throw new InvalidDataException("La frecuencia personalizada requiere tiempo y unidad.");
+            }
+
         if (repository.existsByTitleAndUserIdAndIsTemplate(request.title(), null, true))
             throw new NameAlreadyExistsException();
 
@@ -64,5 +70,4 @@ public class TemplateService implements TemplatesServiceContract {
 
         return repository.deleteById(id);
     }
-
 }

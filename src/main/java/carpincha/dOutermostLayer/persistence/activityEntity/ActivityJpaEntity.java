@@ -1,9 +1,6 @@
 package carpincha.dOutermostLayer.persistence.activityEntity;
 
-import carpincha.aCore.valueObject.ActivityStatus;
-import carpincha.aCore.valueObject.CategoryType;
-import carpincha.aCore.valueObject.FrequencyType;
-import carpincha.aCore.valueObject.PriorityLevel;
+import carpincha.aCore.valueObject.*;
 import carpincha.dOutermostLayer.persistence.userEntity.UserJpaEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -47,6 +44,13 @@ public class ActivityJpaEntity {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private FrequencyType frequency =  FrequencyType.DAILY;
+
+    @Column(name = "custom_frequency_value")
+    private Integer customFrequencyValue;
+
+    @Column(name = "custom_frequency_unit")
+    @Enumerated(EnumType.STRING)
+    private FrequencyUnit customFrequencyUnit;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

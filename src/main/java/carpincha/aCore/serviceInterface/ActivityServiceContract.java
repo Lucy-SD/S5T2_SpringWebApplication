@@ -11,8 +11,8 @@ import java.util.List;
 public interface ActivityServiceContract {
 
     List<Activity> findAllActivities(ActivityStatus status, CategoryType category);
-    List<Activity> findAllTemplates(CategoryType category);
     Activity findActivityByIdAdmin(Long id);
+    boolean deleteActivityAdmin(Long id);
 
     Activity cloneTemplate(Long id, Long userId);
 

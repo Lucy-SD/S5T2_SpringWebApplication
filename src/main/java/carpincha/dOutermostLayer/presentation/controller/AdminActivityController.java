@@ -1,7 +1,6 @@
 package carpincha.dOutermostLayer.presentation.controller;
 
 import carpincha.aCore.entity.activity.Activity;
-import carpincha.aCore.exception.InvalidDataException;
 import carpincha.aCore.valueObject.ActivityStatus;
 import carpincha.aCore.valueObject.CategoryType;
 import carpincha.cApplicationService.dto.activity.response.ActivityResponse;
@@ -33,5 +32,11 @@ public class AdminActivityController {
     public ResponseEntity<ActivityResponse> getActivity(@PathVariable Long id) {
         Activity activity = service.findActivityByIdAdmin(id);
         return ResponseEntity.ok(mapper.toResponse(activity));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteActivity(@PathVariable Long id) {
+        service.deleteActivityAdmin(id);
+        return ResponseEntity.noContent().build();
     }
 }

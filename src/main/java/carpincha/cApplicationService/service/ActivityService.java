@@ -46,20 +46,20 @@ public class ActivityService implements ActivityServiceContract {
     }
 
     @Override
-    public List<Activity> findAllTemplates(CategoryType category) {
-        if (category != null) {
-            return repository.findByCategoryAndIsTemplate(category, true);
-        }
-        return repository.findByIsTemplate(true);
-    }
-
-    @Override
     public Activity findActivityByIdAdmin(Long id) {
         Activity activity = repository.findById(id).orElseThrow(() -> new NotFoundException("Actividad"));
 
         if (!activity.getIsTemplate()) log.warn("Cuidado, esta es una actividad de un usuario.");
 
         return activity;
+    }
+
+    @Override
+    public boolean deleteActivityAdmin(Long id) {
+        findActivityByIdAdmin(id);
+        boolean deleted = repository.deleteById(id);
+        if (deleted) log.info("Actividad de usuario eliminada correctamente por administrador.");
+        return deleted;
     }
 
     @Override

@@ -1,10 +1,9 @@
-
 plugins {
     java
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
-	id("org.springframework.boot") version "3.5.7"
-	id("io.spring.dependency-management") version "1.1.7"
+    id("org.springframework.boot") version "3.5.7"
+    id("io.spring.dependency-management") version "1.1.7"
     jacoco
 }
 
@@ -13,41 +12,40 @@ version = "0.0.1-SNAPSHOT"
 description = "RESTful API to help organize everyday activities"
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 configurations {
-	compileOnly {
-		extendsFrom(configurations.annotationProcessor.get())
-	}
+    compileOnly {
+        extendsFrom(configurations.annotationProcessor.get())
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
-	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.security:spring-security-web")
     implementation("org.springframework.security:spring-security-config")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
     runtimeOnly("org.postgresql:postgresql:42.6.0")
     testRuntimeOnly("com.h2database:h2")
-	compileOnly("org.projectlombok:lombok")
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	annotationProcessor("org.projectlombok:lombok")
-	testImplementation("org.springframework.boot:spring-boot-starter-test") {
+    compileOnly("org.projectlombok:lombok")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    annotationProcessor("org.projectlombok:lombok")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
-    testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
@@ -55,7 +53,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core")
     testImplementation("org.mockito:mockito-junit-jupiter")
     testImplementation("com.h2database:h2")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
@@ -119,7 +117,7 @@ tasks.jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = "0.3".toBigDecimal() // 30% cobertura mínima inicial
+                minimum = "0.3".toBigDecimal()
             }
         }
     }

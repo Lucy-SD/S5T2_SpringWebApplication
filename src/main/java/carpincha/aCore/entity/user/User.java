@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.Instant;
 
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -18,4 +18,10 @@ public class User {
     private Role role = Role.USER;
     @Builder.Default
     private Instant createdAt = Instant.now();
+
+    public User withRole(Role newRole) {
+        return this.toBuilder()
+                .role(newRole)
+                .build();
+    }
 }

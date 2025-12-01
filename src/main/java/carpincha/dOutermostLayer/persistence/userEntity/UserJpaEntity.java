@@ -2,6 +2,7 @@ package carpincha.dOutermostLayer.persistence.userEntity;
 
 import carpincha.aCore.valueObject.Role;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.time.Instant;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "user_db")
 public class UserJpaEntity {
 

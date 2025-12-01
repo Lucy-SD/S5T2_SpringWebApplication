@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/templates")
 @RequiredArgsConstructor
-@Tag(name = "Template Managment.", description = "Admin endpoints for managing activity templates.")
+@Tag(name = "Template Management.", description = "Admin endpoints for managing activity templates.")
 @SecurityRequirement(name = "bearerAuth")
 public class TemplateController {
 

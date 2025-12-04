@@ -55,12 +55,17 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "Forbidden - Admin access required."),
             @ApiResponse(responseCode = "404", description = "User not found.")
     })
-    public ResponseEntity<Void> changeUserRole(
+    public ResponseEntity<UserInfoResponse> changeUserRole(
             @PathVariable Long id,
             @RequestBody @Valid Role role
     ){
-        userService.changeUserRole(id, role);
-        return ResponseEntity.ok().build();
+        User user = userService.changeUserRole(id, role);
+        UserInfoResponse response = new UserInfoResponse(
+                user.getId(),
+                user.getName(),
+                user.getRole()
+        );
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

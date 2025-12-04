@@ -1,6 +1,7 @@
 package carpincha.dOutermostLayer.persistence.userEntity;
 
 import carpincha.aCore.entity.user.User;
+import carpincha.aCore.exception.NotFoundException;
 import carpincha.aCore.repoInterface.UserRepository;
 import carpincha.aCore.valueObject.Role;
 import carpincha.dOutermostLayer.persistence.mapper.UserMapper;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -47,6 +47,14 @@ public class UserRepositoryAdapter implements UserRepository {
                 .stream()
                 .map(mapper::toDomain)
                 .toList();
+    }
+
+    @Override
+    public void updateRole(Long id, Role role) {
+        UserJpaEntity entity = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Usuario"));
+        entity.setRole(role);
+        repository.save(entity);
     }
 
     @Override

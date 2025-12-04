@@ -30,6 +30,7 @@ public class UserJpaEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @Setter
     private Role role;
 
     @Column(nullable = false)

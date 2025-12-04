@@ -54,12 +54,13 @@ public class UserService implements UserServiceContract {
     }
 
     @Override
-    public void changeUserRole(Long id, Role role) {
+    @Transactional
+    public User changeUserRole(Long id, Role role) {
+        repository.updateRole(id, role);
         User user = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Usuario"));
-        User updatedUser = user.withRole(role);
-        repository.save(updatedUser);
         log.info("Rol del usuario '{}' actualizado correctamente a '{}'.", user.getName(), role);
+        return user;
     }
 
     @Override

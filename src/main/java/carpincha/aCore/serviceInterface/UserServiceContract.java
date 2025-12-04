@@ -14,6 +14,6 @@ public interface UserServiceContract {
     Optional<User> findById(Long id);
 
     List<User> findAllUsers();
-    void changeUserRole(Long id, Role role);
+    User changeUserRole(Long id, Role role);
     void deleteUser(Long id);
 }

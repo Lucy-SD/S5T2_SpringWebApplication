@@ -15,6 +15,7 @@ public class User {
     private String name;
     private String encodedPassword;
     @Builder.Default
+    @Setter
     private Role role = Role.USER;
     @Builder.Default
     private Instant createdAt = Instant.now();
